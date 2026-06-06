@@ -14,7 +14,7 @@
 | 2 | Preprocessing & Feature Engineering | ✅ Completado |
 | 3 | Modelado & Evaluación | ✅ Completado |
 | 4 | Dashboard Streamlit | ✅ Completado |
-| 5 | Cierre de portfolio | 🔄 En progreso |
+| 5 | Cierre de portfolio | ✅ Completado |
 
 Leyenda: ⬜ Pendiente · 🔄 En progreso · ✅ Completado
 
@@ -251,7 +251,7 @@ Para cada modelo calcular:
 - [x] Ejecutar todos los notebooks de inicio a fin sin errores (01 → 02 → 03, 0 errores)
 - [x] Actualizar `README.md` con screenshots reales del dashboard → `reports/10_dashboard.png`
 - [x] Revisar que `requirements.txt` incluye todas las dependencias usadas
-- [ ] Crear tag de versión en git: `v1.0.0` *(pendiente: el proyecto aún no es un repo git — `git init` primero)*
+- [x] Crear tag de versión en git: `v1.0.0` → [release publicado](https://github.com/0marMF/fraud-detection/releases/tag/v1.0.0)
 - [ ] (Opcional) Desplegar dashboard en Streamlit Cloud
 
 ### Checklist de calidad del portfolio
