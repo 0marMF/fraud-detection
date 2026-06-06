@@ -1,0 +1,27 @@
+# Datos (no subir a git — descargar desde Kaggle, ver README)
+data/
+*.csv
+*.zip
+*.parquet
+*.paruqet
+
+# Pickles regenerables (splits), pero SÍ versionamos el modelo final
+*.pkl
+!src/best_model.pkl
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# Jupyter / temporales de build
+notebooks/_build_*.py
+
+# Sistema
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
