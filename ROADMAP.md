@@ -18,6 +18,34 @@
 
 Leyenda: ⬜ Pendiente · 🔄 En progreso · ✅ Completado
 
+> **v1.0.0 completo.** Ver abajo **Mejoras planificadas (v1.1)** — detectadas en la auditoría
+> posterior al release; refuerzan el foco del proyecto sin invalidar lo entregado.
+
+---
+
+## 🔄 Mejoras planificadas (v1.1) — auditoría 2026-06-06
+
+### 🔴 P1 — Selección de umbral por matriz de costes (el foco que faltó)
+En fraude, el valor está en **dónde se pone el corte**: un fraude no detectado (FN) cuesta mucho
+más que revisar una falsa alarma (FP). Hoy usamos threshold fijo 0.5.
+- [ ] Definir costes relativos FN vs FP (parametrizables)
+- [ ] Curva de **coste total vs threshold** y elección del umbral óptimo de negocio
+- [ ] Tabla precision/recall/coste a varios umbrales → `reports/11_threshold_cost.png`
+- [ ] Reflejar el umbral elegido en `metrics.json` y en el dashboard
+
+### 🔴 P1 — Explicabilidad por predicción (SHAP)
+El dashboard dice "FRAUDE 96%" pero no **por qué**. Churn ya tiene SHAP; aquí falta.
+- [ ] `TreeExplainer` sobre el modelo final → `reports/12_shap_summary.png`
+- [ ] Waterfall de una transacción fraudulenta y una legítima
+- [ ] Mostrar la explicación SHAP de la predicción en el dashboard
+
+### 🟠 P2 — Robustez de evaluación
+- [ ] `StratifiedKFold` (5-fold): media ± desviación de PR-AUC / F1 (hoy es un solo split)
+- [ ] `DummyClassifier` como baseline explícito de referencia
+
+**Por qué:** el punto de operación y el "por qué" de cada alerta son el núcleo del valor en
+detección de fraude; ahora mismo son justo lo que el proyecto no cubre.
+
 ---
 
 ## 🔄 Backlog de mejoras — v1.1.0 *(planificado, aún sin implementar)*
