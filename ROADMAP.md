@@ -304,6 +304,55 @@ Para cada modelo calcular:
 
 ---
 
+## 🚀 De análisis a proyecto de Ciencia de Datos (Track DS — planificado)
+
+Hasta aquí esto es un análisis sólido. Pero un científico de datos no entrega un notebook bonito
+y se va: entrega algo que otra persona puede clonar, correr, probar, desplegar y mantener sin
+adivinar nada. Esta es la parte que convierte el proyecto de "análisis" en "proyecto de DS".
+
+**Sacar el código del notebook → `src/`**
+- [ ] `src/data.py` (carga y limpieza), `src/features.py` (Hour, Amount_log, Is_night, scaler),
+      `src/model.py` (entrenamiento + serialización), `src/evaluate.py` (métricas y umbral).
+- [ ] Los notebooks pasan a contar la historia y llamar a esas funciones — se acaba el copy-paste
+      entre `02` y `03`.
+
+**Reproducibilidad de verdad**
+- [ ] `config.yaml` con rutas, semilla, hiperparámetros y umbral. Nada hardcodeado.
+- [ ] Un solo comando que corre todo: `python -m src.pipeline` (o un `Makefile`).
+
+**Tests con pytest** (esto es lo que más separa a un DS de un analista)
+- [ ] Validación de datos al cargar: columnas esperadas, rangos, `Class ∈ {0,1}`.
+- [ ] Test anti-leakage: SMOTE solo en train; el scaler se ajusta solo con train.
+- [ ] Test de contrato del modelo: `predict_proba` devuelve valores en [0,1].
+
+**Seguimiento de experimentos**
+- [ ] MLflow (o, si se quiere ligero, un `experiments.csv`) con params + métricas + artefacto por
+      corrida, para poder comparar "qué probé y qué salió".
+
+**Servir el modelo**
+- [ ] API con FastAPI: `POST /predict` que recibe una transacción y devuelve probabilidad,
+      etiqueta y las features que más pesaron (SHAP).
+- [ ] `Dockerfile` para levantar la API + modelo de forma reproducible.
+- [ ] El dashboard de Streamlit consume la API en vez de cargar el `.pkl` directo (separa
+      front-end de modelo).
+
+**CI**
+- [ ] GitHub Actions que corre `pytest` en cada push (y si se puede, ejecuta los notebooks para que
+      no se rompan en silencio).
+
+**Documentación de modelo**
+- [ ] Model card: para qué sirve y para qué NO, con qué datos se entrenó, límites y sesgos
+      conocidos (las `V` son PCA anónimas → poca interpretabilidad de negocio).
+- [ ] Nota de monitoreo: cómo detectaríamos *data drift* (los patrones de fraude cambian; un
+      modelo viejo se degrada solo).
+
+> **Estilo — vale para TODO lo que escribamos aquí:** el código, los comentarios y la
+> documentación deben leerse como escritos por una persona, no por una máquina. Comentarios que
+> explican el *porqué* y no el *qué*, nombres honestos, y algún apunte real ("ojo con esto",
+> "esto me costó pillarlo"). Cero relleno robótico, cero párrafos de plantilla.
+
+---
+
 ## Orden de desarrollo recomendado
 
 ```
