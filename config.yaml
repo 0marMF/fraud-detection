@@ -1,0 +1,41 @@
+# Configuración central del proyecto.
+# La idea: que nadie tenga que bucear en el código para cambiar una ruta, una semilla
+# o un hiperparámetro. Todo lo que se toca a menudo vive aquí.
+
+seed: 42                          # misma semilla en todo el pipeline -> resultados reproducibles
+
+data:
+  raw_csv: data/creditcard.csv    # dataset original (no se versiona; ver README)
+  splits: data/splits.pkl         # train/test ya procesados
+
+paths:
+  reports: reports
+  model: src/best_model.pkl
+  metrics: reports/metrics.json
+  experiments: reports/experiments.csv   # registro ligero: una fila por corrida
+
+features:
+  scale_cols: [Amount_log, Hour]  # las únicas que escalamos; V1-V28 ya vienen de PCA
+  night_start: 22                 # Is_night = 1 si la hora cae entre night_start y night_end
+  night_end: 6
+
+split:
+  test_size: 0.2                  # split estratificado para conservar el 0.17% de fraude
+
+model:
+  random_forest:
+    n_estimators: 100
+  xgboost:
+    n_estimators: 300
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+
+# Costes para elegir el umbral de decisión (se usa a partir del CP2).
+# Trabajamos en euros reales: una falsa alarma cuesta la revisión manual; un fraude no
+# detectado cuesta el monto real de esa transacción (lo reconstruimos del Amount).
+costs:
+  fp_review_cost: 3.0             # € por revisar manualmente una alerta
+
+threshold: 0.5                    # umbral base; en el CP2 se optimiza por coste

@@ -1,6 +1,7 @@
 # Datos (no subir a git — descargar desde Kaggle, ver README)
 data/
 *.csv
+!reports/experiments.csv
 *.zip
 *.parquet
 *.paruqet

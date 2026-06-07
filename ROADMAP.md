@@ -1,6 +1,6 @@
 # Roadmap — Credit Card Fraud Detection
 
-**Proyecto de portfolio:** Omar Mora Flores  
+**Proyecto de portfolio:** Omar Mora Flores
 **Objetivo:** Construir un pipeline completo de detección de fraude con ML, desde EDA hasta un dashboard interactivo desplegable.
 
 ---
@@ -9,46 +9,21 @@
 
 | Fase | Componente | Estado |
 |---|---|---|
-| 0 | Setup del entorno | ✅ Completado |
-| 1 | EDA | ✅ Completado |
-| 2 | Preprocessing & Feature Engineering | ✅ Completado |
-| 3 | Modelado & Evaluación | ✅ Completado |
-| 4 | Dashboard Streamlit | ✅ Completado |
-| 5 | Cierre de portfolio | ✅ Completado |
+| 0 | Setup del entorno | Completado |
+| 1 | EDA | Completado |
+| 2 | Preprocessing & Feature Engineering | Completado |
+| 3 | Modelado & Evaluación | Completado |
+| 4 | Dashboard Streamlit | Completado |
+| 5 | Cierre de portfolio | Completado |
 
-Leyenda: ⬜ Pendiente · 🔄 En progreso · ✅ Completado
+Leyenda: Pendiente · En progreso · Completado
 
-> **v1.0.0 completo.** Ver abajo **Mejoras planificadas (v1.1)** — detectadas en la auditoría
-> posterior al release; refuerzan el foco del proyecto sin invalidar lo entregado.
-
----
-
-## 🔄 Mejoras planificadas (v1.1) — auditoría 2026-06-06
-
-### 🔴 P1 — Selección de umbral por matriz de costes (el foco que faltó)
-En fraude, el valor está en **dónde se pone el corte**: un fraude no detectado (FN) cuesta mucho
-más que revisar una falsa alarma (FP). Hoy usamos threshold fijo 0.5.
-- [ ] Definir costes relativos FN vs FP (parametrizables)
-- [ ] Curva de **coste total vs threshold** y elección del umbral óptimo de negocio
-- [ ] Tabla precision/recall/coste a varios umbrales → `reports/11_threshold_cost.png`
-- [ ] Reflejar el umbral elegido en `metrics.json` y en el dashboard
-
-### 🔴 P1 — Explicabilidad por predicción (SHAP)
-El dashboard dice "FRAUDE 96%" pero no **por qué**. Churn ya tiene SHAP; aquí falta.
-- [ ] `TreeExplainer` sobre el modelo final → `reports/12_shap_summary.png`
-- [ ] Waterfall de una transacción fraudulenta y una legítima
-- [ ] Mostrar la explicación SHAP de la predicción en el dashboard
-
-### 🟠 P2 — Robustez de evaluación
-- [ ] `StratifiedKFold` (5-fold): media ± desviación de PR-AUC / F1 (hoy es un solo split)
-- [ ] `DummyClassifier` como baseline explícito de referencia
-
-**Por qué:** el punto de operación y el "por qué" de cada alerta son el núcleo del valor en
-detección de fraude; ahora mismo son justo lo que el proyecto no cubre.
+> **v1.0.0 completo.** Más abajo están el **Backlog de mejoras (v1.1)** y el **Track de Ciencia de Datos** — el plan
+> de esta segunda iteración.
 
 ---
 
-## 🔄 Backlog de mejoras — v1.1.0 *(planificado, aún sin implementar)*
+## Backlog de mejoras — v1.1.0 *(planificado, aún sin implementar)*
 
 > Derivado de la revisión de calidad (2026-06-06). Corrige focos que la v1.0.0 dejó a medias.
 
@@ -68,7 +43,7 @@ detección de fraude; ahora mismo son justo lo que el proyecto no cubre.
 
 - [x] Completar `requirements.txt` con todas las dependencias y versiones fijas
 - [x] Completar `.gitignore` (excluir `data/`, `*.csv`, `*.pkl`, `*.zip`, `__pycache__/`, `.ipynb_checkpoints/`)
-- [x] Actualizar rutas de notebooks en `README.md` de `.py` a `.ipynb` · ⚠️ *pendiente: reemplazar las métricas placeholder por las reales en la Fase 3/5*
+- [x] Actualizar rutas de notebooks en `README.md` de `.py` a `.ipynb` · *pendiente: reemplazar las métricas placeholder por las reales en la Fase 3/5*
 - [x] Verificar que el dataset `data/creditcard.csv` carga correctamente con Pandas (284,807 filas, 0 nulos, 1,081 duplicados)
 
 ### Entregables
@@ -80,7 +55,7 @@ detección de fraude; ahora mismo son justo lo que el proyecto no cubre.
 
 ## Fase 1 — EDA (Análisis Exploratorio)
 
-**Archivo:** `notebooks/01_EDA.ipynb`  
+**Archivo:** `notebooks/01_EDA.ipynb`
 **Meta:** Entender la distribución de los datos, el desbalance de clases y los patrones que diferencian transacciones fraudulentas de legítimas.
 
 ### Secciones del notebook
@@ -124,7 +99,7 @@ detección de fraude; ahora mismo son justo lo que el proyecto no cubre.
 
 ## Fase 2 — Preprocessing & Feature Engineering
 
-**Archivo:** `notebooks/02_preprocessing.ipynb`  
+**Archivo:** `notebooks/02_preprocessing.ipynb`
 **Meta:** Limpiar, transformar y enriquecer el dataset para maximizar la capacidad predictiva del modelo.
 
 ### Secciones del notebook
@@ -185,7 +160,7 @@ detección de fraude; ahora mismo son justo lo que el proyecto no cubre.
 
 ## Fase 3 — Modelado & Evaluación
 
-**Archivo:** `notebooks/03_modeling.ipynb`  
+**Archivo:** `notebooks/03_modeling.ipynb`
 **Meta:** Entrenar, comparar y seleccionar el mejor modelo. Serializar el modelo final.
 
 ### Secciones del notebook
@@ -246,7 +221,7 @@ Para cada modelo calcular:
 
 ## Fase 4 — Dashboard Streamlit
 
-**Archivo:** `dashboard/app.py`  
+**Archivo:** `dashboard/app.py`
 **Meta:** Interfaz interactiva que permita ingresar datos de transacción y obtener predicción de fraude en tiempo real.
 
 ### Secciones del dashboard
@@ -304,7 +279,7 @@ Para cada modelo calcular:
 
 ---
 
-## 🚀 De análisis a proyecto de Ciencia de Datos (Track DS — planificado)
+## De análisis a proyecto de Ciencia de Datos (Track DS — planificado)
 
 Hasta aquí esto es un análisis sólido. Pero un científico de datos no entrega un notebook bonito
 y se va: entrega algo que otra persona puede clonar, correr, probar, desplegar y mantener sin
@@ -360,7 +335,7 @@ Fase 0 → Fase 1 → Fase 2 → Fase 3 → Fase 4 → Fase 5
   Setup    EDA    Preproc   Model    Dashboard  Cierre
 ```
 
-Cada fase produce los archivos que necesita la siguiente.  
+Cada fase produce los archivos que necesita la siguiente.
 No saltar fases — el `splits.pkl` de la Fase 2 es requerido por la Fase 3.
 
 ---
