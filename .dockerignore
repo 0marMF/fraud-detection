@@ -1,0 +1,15 @@
+# Contexto de build mínimo: la API solo necesita src/ + config.yaml
+data/
+notebooks/
+reports/
+tests/
+dashboard/
+*.md
+.git/
+.gitignore
+__pycache__/
+*.ipynb
+.ipynb_checkpoints/
+.venv/
+venv/
+creditcardfraud.zip

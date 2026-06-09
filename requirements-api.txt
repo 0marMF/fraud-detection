@@ -1,0 +1,11 @@
+# Dependencias mínimas para SERVIR el modelo (la API en Docker).
+# No incluye jupyter, seaborn, imbalanced-learn ni streamlit: en producción no hacen falta.
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.0
+xgboost==2.0.3
+shap==0.52.0
+matplotlib==3.9.0
+fastapi==0.111.0
+uvicorn==0.30.1
+pyyaml==6.0.2

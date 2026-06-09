@@ -28,15 +28,15 @@ Leyenda: Pendiente · En progreso · Completado
 > Derivado de la revisión de calidad (2026-06-06). Corrige focos que la v1.0.0 dejó a medias.
 
 - [x] **3.7 Selección de umbral por matriz de costes** — umbral óptimo por coste en euros = 0.15 (recall 0.83, ~€2,803 de coste total vs ~€4,094 a 0.5). Curva en `reports/11_threshold_cost.png`.
-- [x] **3.8 Explicabilidad por predicción (SHAP)** — `TreeExplainer` + summary (`12_shap_summary.png`) y waterfall por transacción (`13_shap_waterfall.png`); lógica reutilizable en `src/explain.py` y notebook `04_explainability.ipynb`. *Pendiente: integrar el waterfall en el dashboard (CP5).*
+- [x] **3.8 Explicabilidad por predicción (SHAP)** — `TreeExplainer` + summary (`12_shap_summary.png`) y waterfall por transacción (`13_shap_waterfall.png`); lógica reutilizable en `src/explain.py` y notebook `04_explainability.ipynb`. La API y el dashboard ya muestran las features SHAP por predicción (CP5).
 - [x] **Validación cruzada estratificada (`StratifiedKFold`)** — PR-AUC 0.845 ± 0.034 (SMOTE dentro de cada fold).
 - [x] **Baseline `DummyClassifier`** — PR-AUC ≈ 0.002 · *pendiente: comparar `scale_pos_weight` como alternativa a SMOTE*.
 - [x] Liderar la narrativa de métricas con **PR-AUC** (no ROC-AUC) en README y notebooks.
 
 > Infra del Track DS ya en marcha: `config.yaml`, paquete `src/` modular, `python -m src.pipeline`
-> y registro de experimentos (`reports/experiments.csv`), SHAP (`src/explain.py`) y tests
-> (`pytest`, 10 verdes). Pendiente:
-> API + Docker (CP5), CI (CP6).
+> y registro de experimentos (`reports/experiments.csv`), SHAP (`src/explain.py`), tests
+> (`pytest`, 12 verdes) y API + Docker (`src/api.py`, `Dockerfile`). Pendiente:
+> CI (CP6), model card (CP7), release v1.1.0 (CP8).
 
 ---
 
@@ -309,12 +309,12 @@ adivinar nada. Esta es la parte que convierte el proyecto de "análisis" en "pro
 - [ ] MLflow (o, si se quiere ligero, un `experiments.csv`) con params + métricas + artefacto por
       corrida, para poder comparar "qué probé y qué salió".
 
-**Servir el modelo**
-- [ ] API con FastAPI: `POST /predict` que recibe una transacción y devuelve probabilidad,
-      etiqueta y las features que más pesaron (SHAP).
-- [ ] `Dockerfile` para levantar la API + modelo de forma reproducible.
-- [ ] El dashboard de Streamlit consume la API en vez de cargar el `.pkl` directo (separa
-      front-end de modelo).
+**Servir el modelo** — hecho (CP5)
+- [x] API con FastAPI (`src/api.py`): `POST /predict` devuelve probabilidad, veredicto (según el
+      umbral por coste) y las features que más pesaron (SHAP). Lógica compartida en `src/score.py`.
+- [x] `Dockerfile` + `requirements-api.txt` para levantar la API de forma reproducible (imagen
+      lean: sin notebooks ni jupyter).
+- [x] El dashboard consume la API (con fallback local a `src.score`) en vez de cargar el `.pkl`.
 
 **CI**
 - [ ] GitHub Actions que corre `pytest` en cada push (y si se puede, ejecuta los notebooks para que
