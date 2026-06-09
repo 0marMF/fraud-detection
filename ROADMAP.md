@@ -28,13 +28,14 @@ Leyenda: Pendiente · En progreso · Completado
 > Derivado de la revisión de calidad (2026-06-06). Corrige focos que la v1.0.0 dejó a medias.
 
 - [x] **3.7 Selección de umbral por matriz de costes** — umbral óptimo por coste en euros = 0.15 (recall 0.83, ~€2,803 de coste total vs ~€4,094 a 0.5). Curva en `reports/11_threshold_cost.png`.
-- [ ] **3.8 Explicabilidad por predicción (SHAP)** — `TreeExplainer` de XGBoost; integrar el *waterfall* en el dashboard (pendiente, CP3).
+- [x] **3.8 Explicabilidad por predicción (SHAP)** — `TreeExplainer` + summary (`12_shap_summary.png`) y waterfall por transacción (`13_shap_waterfall.png`); lógica reutilizable en `src/explain.py` y notebook `04_explainability.ipynb`. *Pendiente: integrar el waterfall en el dashboard (CP5).*
 - [x] **Validación cruzada estratificada (`StratifiedKFold`)** — PR-AUC 0.845 ± 0.034 (SMOTE dentro de cada fold).
 - [x] **Baseline `DummyClassifier`** — PR-AUC ≈ 0.002 · *pendiente: comparar `scale_pos_weight` como alternativa a SMOTE*.
 - [x] Liderar la narrativa de métricas con **PR-AUC** (no ROC-AUC) en README y notebooks.
 
 > Infra del Track DS ya en marcha: `config.yaml`, paquete `src/` modular, `python -m src.pipeline`
-> y registro de experimentos (`reports/experiments.csv`). Pendiente: SHAP (CP3), tests (CP4),
+> y registro de experimentos (`reports/experiments.csv`), SHAP (`src/explain.py`) y tests
+> (`pytest`, 10 verdes). Pendiente:
 > API + Docker (CP5), CI (CP6).
 
 ---
@@ -299,10 +300,10 @@ adivinar nada. Esta es la parte que convierte el proyecto de "análisis" en "pro
 - [ ] `config.yaml` con rutas, semilla, hiperparámetros y umbral. Nada hardcodeado.
 - [ ] Un solo comando que corre todo: `python -m src.pipeline` (o un `Makefile`).
 
-**Tests con pytest** (esto es lo que más separa a un DS de un analista)
-- [ ] Validación de datos al cargar: columnas esperadas, rangos, `Class ∈ {0,1}`.
-- [ ] Test anti-leakage: SMOTE solo en train; el scaler se ajusta solo con train.
-- [ ] Test de contrato del modelo: `predict_proba` devuelve valores en [0,1].
+**Tests con pytest** (esto es lo que más separa a un DS de un analista) — hecho (10 verdes, datos sintéticos)
+- [x] Validación de datos al cargar: columnas esperadas, rangos, `Class ∈ {0,1}`.
+- [x] Test anti-leakage: SMOTE solo en train; el scaler se ajusta solo con train.
+- [x] Test de contrato del modelo: `predict_proba` devuelve valores en [0,1].
 
 **Seguimiento de experimentos**
 - [ ] MLflow (o, si se quiere ligero, un `experiments.csv`) con params + métricas + artefacto por
