@@ -48,12 +48,17 @@ def train_and_select(splits: dict, cfg: dict) -> dict:
             "y_test": y_te}
 
 
-def save_model(model, name: str, splits: dict, cfg: dict) -> None:
-    """Guarda el modelo junto a lo que el dashboard/API necesita para reconstruir el input."""
+def save_model(model, name: str, splits: dict, cfg: dict, threshold: float | None = None) -> None:
+    """Guarda el modelo junto a lo que el dashboard/API necesita para reconstruir el input.
+
+    Incluimos el umbral elegido (por coste) para que quien consuma el modelo use el mismo
+    punto de operación que validamos, no un 0.5 cualquiera.
+    """
     artefacto = {
         "model": model, "model_name": name,
         "features": splits["features"], "scaler": splits["scaler"],
         "cols_scaled": splits["cols_scaled"],
+        "threshold": threshold if threshold is not None else cfg["threshold"],
     }
     with open(path(cfg["paths"]["model"]), "wb") as f:
         pickle.dump(artefacto, f)

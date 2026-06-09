@@ -23,15 +23,19 @@ Leyenda: Pendiente · En progreso · Completado
 
 ---
 
-## Backlog de mejoras — v1.1.0 *(planificado, aún sin implementar)*
+## Backlog de mejoras — v1.1.0 *(en progreso: CP1-CP2 hechos)*
 
 > Derivado de la revisión de calidad (2026-06-06). Corrige focos que la v1.0.0 dejó a medias.
 
-- [ ] **3.7 Selección de umbral por matriz de costes** — hoy se usa threshold 0.5 fijo; en fraude el punto de operación es lo más crítico. Tabla precision/recall vs. threshold y elección por coste (un falso negativo cuesta mucho más que una falsa alarma).
-- [ ] **3.8 Explicabilidad por predicción (SHAP)** — `TreeExplainer` de XGBoost; integrar el *waterfall* en el dashboard para justificar cada alerta (hoy el dashboard da la probabilidad pero no el porqué).
-- [ ] **Validación cruzada estratificada (`StratifiedKFold`)** — intervalos de confianza de PR-AUC/F1 en vez de un único split.
-- [ ] **Baseline `DummyClassifier`** + comparar `scale_pos_weight` como alternativa a SMOTE.
-- [ ] Liderar la narrativa de métricas con **PR-AUC** (no ROC-AUC) en README y notebook.
+- [x] **3.7 Selección de umbral por matriz de costes** — umbral óptimo por coste en euros = 0.15 (recall 0.83, ~€2,803 de coste total vs ~€4,094 a 0.5). Curva en `reports/11_threshold_cost.png`.
+- [ ] **3.8 Explicabilidad por predicción (SHAP)** — `TreeExplainer` de XGBoost; integrar el *waterfall* en el dashboard (pendiente, CP3).
+- [x] **Validación cruzada estratificada (`StratifiedKFold`)** — PR-AUC 0.845 ± 0.034 (SMOTE dentro de cada fold).
+- [x] **Baseline `DummyClassifier`** — PR-AUC ≈ 0.002 · *pendiente: comparar `scale_pos_weight` como alternativa a SMOTE*.
+- [x] Liderar la narrativa de métricas con **PR-AUC** (no ROC-AUC) en README y notebooks.
+
+> Infra del Track DS ya en marcha: `config.yaml`, paquete `src/` modular, `python -m src.pipeline`
+> y registro de experimentos (`reports/experiments.csv`). Pendiente: SHAP (CP3), tests (CP4),
+> API + Docker (CP5), CI (CP6).
 
 ---
 

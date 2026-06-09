@@ -23,6 +23,17 @@
       "Recall": 0.7895
     }
   },
+  "baseline_dummy": {
+    "pr_auc": 0.0017,
+    "recall": 0.0
+  },
+  "cv": {
+    "model": "XGBoost",
+    "metric": "PR-AUC",
+    "n_splits": 5,
+    "mean": 0.8448,
+    "std": 0.0343
+  },
   "best": {
     "roc_auc": 0.974,
     "pr_auc": 0.8186,
@@ -36,5 +47,18 @@
     "frauds_total_test": 95,
     "losses_avoided_eur": 10741.0,
     "losses_missed_eur": 4025.0
+  },
+  "operating_point": {
+    "threshold": 0.15,
+    "fp_review_cost_eur": 3.0,
+    "total_cost_eur": 2803.0,
+    "recall": 0.8316,
+    "precision": 0.5486,
+    "tp": 79,
+    "fn": 16,
+    "fp": 65,
+    "frauds_total_test": 95,
+    "losses_avoided_eur": 12158.0,
+    "losses_missed_eur": 2608.0
   }
 }

@@ -61,6 +61,28 @@ Evaluación sobre el **test real** (sin SMOTE), 56,746 transacciones:
 
 ---
 
+## 🎯 Punto de operación y robustez (v1.1)
+
+Mejoras de la segunda iteración (Track DS):
+
+- **Baseline trivial** (predecir siempre "legítima"): PR-AUC ≈ **0.002**. Confirma que el modelo
+  aporta señal real y no es un espejismo del desbalance.
+- **Validación cruzada 5-fold** (con SMOTE dentro de cada fold, sin fuga): PR-AUC
+  **0.845 ± 0.034**, consistente con el 0.819 de un solo split. El resultado es estable.
+- **Umbral por coste en euros.** En lugar del 0.5 por defecto, elegimos el que minimiza el coste
+  total — un fraude no detectado cuesta su monto real; una falsa alarma, ~3 € de revisión:
+
+| Umbral | Recall | Fraudes | Falsas alarmas | Coste total |
+|---|---|---|---|---|
+| 0.5 (por defecto) | 0.79 | 75/95 | 23 | ~€4,094 |
+| **0.15 (óptimo)** | **0.83** | **79/95** | 65 | **~€2,803** |
+
+El óptimo (0.15) atrapa 4 fraudes más y recorta el coste ~€1,300, aunque genere más falsas
+alarmas — porque cada fraude perdido pesa muchísimo más que una revisión manual. Ese umbral
+queda guardado en `src/best_model.pkl`, así el dashboard y la API usan el mismo punto de operación.
+
+---
+
 ## 💰 Impacto de negocio
 
 Reconstruyendo el monto real de cada transacción (inverse-transform del escalado + `expm1`):

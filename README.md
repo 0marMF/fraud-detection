@@ -22,19 +22,28 @@ extremadamente desbalanceadas.
 
 ## Resultados
 
-*Modelo seleccionado: **XGBoost** · evaluado sobre el test real (sin SMOTE), 56,746 transacciones.*
+Modelo seleccionado: **XGBoost** (por PR-AUC), evaluado sobre el test real (sin SMOTE), 56,746 transacciones.
 
 | Métrica | Resultado |
 |---|---|
-| **ROC-AUC** | **0.974** |
-| **PR-AUC** | **0.819** |
-| **F1-Score (fraude)** | **0.777** |
-| **Recall (fraude)** | **0.789** — 75 de 95 fraudes detectados |
-| **Precision (fraude)** | **0.765** |
-| **Falsas alarmas** | 23 de 56,651 legítimas |
-| **Impacto estimado** | ~€10,741 en pérdidas evitadas (test set) |
+| ROC-AUC | 0.974 |
+| PR-AUC | 0.819 |
+| PR-AUC (validación cruzada 5-fold) | 0.845 ± 0.034 |
+| F1 (fraude, umbral 0.5) | 0.777 |
+| Baseline trivial (PR-AUC) | 0.002 |
 
-> *Métricas reproducibles ejecutando `notebooks/03_modeling.ipynb` · se guardan en `reports/metrics.json`.*
+**Punto de operación recomendado.** El umbral no se deja en 0.5: se elige el que minimiza el
+coste en euros — un fraude no detectado cuesta su monto real; una falsa alarma, ~3 € de revisión.
+
+| Umbral | Recall | Fraudes detectados | Falsas alarmas | Coste total |
+|---|---|---|---|---|
+| 0.5 (por defecto) | 0.79 | 75 / 95 | 23 | ~€4,094 |
+| **0.15 (óptimo por coste)** | **0.83** | **79 / 95** | 65 | **~€2,803** |
+
+Bajar el umbral detecta 4 fraudes más y ahorra ~€1,300 netos pese a generar más falsas alarmas.
+
+> Todo es reproducible con un comando: `python -m src.pipeline`. Las cifras se guardan en
+> `reports/metrics.json` y cada corrida queda registrada en `reports/experiments.csv`.
 
 ---
 
@@ -65,8 +74,12 @@ fraud-detection/
 │   ├── 02_preprocessing.ipynb  # Limpieza, feature engineering, SMOTE
 │   └── 03_modeling.ipynb       # Entrenamiento y evaluación de modelos
 │
-├── src/
-│   └── best_model.pkl          # Modelo final serializado (XGBoost)
+├── config.yaml                 # Semilla, rutas, hiperparámetros y costes (nada hardcodeado)
+│
+├── src/                        # La lógica vive aquí; los notebooks la importan
+│   ├── data.py  features.py  model.py  evaluate.py
+│   ├── pipeline.py             # "python -m src.pipeline" corre todo de una
+│   └── best_model.pkl          # Modelo final serializado (XGBoost + umbral por coste)
 │
 ├── dashboard/
 │   └── app.py                  # Dashboard interactivo con Streamlit
@@ -81,7 +94,9 @@ fraud-detection/
     ├── 08_best_model.png
     ├── 09_feature_importance.png
     ├── 10_dashboard.png         # Screenshot del dashboard Streamlit
-    └── metrics.json             # Métricas reales del modelo (generadas en Fase 3)
+    ├── 11_threshold_cost.png    # Curva de coste vs umbral
+    ├── metrics.json             # Métricas del modelo + punto de operación
+    └── experiments.csv          # Registro de cada corrida del pipeline
 ```
 
 ---
@@ -134,13 +149,16 @@ Después SMOTE → {Legítimas: 226,602 | Fraudes: 226,602}
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/omar-mora-flores/fraud-detection
+git clone https://github.com/0marMF/fraud-detection
 cd fraud-detection
 
 # 2. Instalar dependencias
 pip install -r requirements.txt
 
-# 3. Ejecutar pipeline completo (ejecuta cada notebook in-place)
+# 3a. Camino rápido: todo el pipeline de una (datos -> features -> modelo -> métricas)
+python -m src.pipeline
+
+# 3b. Camino narrado: ejecutar los notebooks en orden (importan de src/)
 jupyter nbconvert --to notebook --execute --inplace notebooks/01_EDA.ipynb
 jupyter nbconvert --to notebook --execute --inplace notebooks/02_preprocessing.ipynb
 jupyter nbconvert --to notebook --execute --inplace notebooks/03_modeling.ipynb

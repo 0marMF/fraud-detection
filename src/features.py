@@ -48,6 +48,9 @@ def make_splits(df: pd.DataFrame, cfg: dict, save: bool = True) -> dict:
     splits = {
         "X_train": X_tr_res, "X_test": X_te,
         "y_train": y_tr_res, "y_test": y_te,
+        # Guardamos también el train SIN SMOTE (ya escalado). Lo necesita la validación
+        # cruzada: el SMOTE hay que aplicarlo DENTRO de cada fold, no antes, o filtra.
+        "X_train_raw": X_tr, "y_train_raw": y_tr,
         "features": features, "scaler": scaler, "cols_scaled": cols,
     }
     if save:
