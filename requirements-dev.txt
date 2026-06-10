@@ -1,0 +1,12 @@
+# Dependencias para desarrollo y CI: lo justo para correr el pipeline y los tests.
+# Deja fuera jupyter/streamlit/plotly (eso es solo para los notebooks y el dashboard en local),
+# así el CI instala rápido. shap se queda en 0.46 por compatibilidad con numpy 1.26.
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.0
+imbalanced-learn==0.12.3
+xgboost==2.0.3
+shap==0.46.0
+matplotlib==3.9.0
+pyyaml==6.0.2
+pytest==8.3.5

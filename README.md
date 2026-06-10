@@ -8,6 +8,7 @@
 [![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3+-F7931E?logo=scikit-learn)](https://scikit-learn.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?logo=streamlit)](https://streamlit.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![CI](https://github.com/0marMF/fraud-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/0marMF/fraud-detection/actions/workflows/ci.yml)
 
 ---
 

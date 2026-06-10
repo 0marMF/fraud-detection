@@ -35,8 +35,8 @@ Leyenda: Pendiente · En progreso · Completado
 
 > Infra del Track DS ya en marcha: `config.yaml`, paquete `src/` modular, `python -m src.pipeline`
 > y registro de experimentos (`reports/experiments.csv`), SHAP (`src/explain.py`), tests
-> (`pytest`, 12 verdes) y API + Docker (`src/api.py`, `Dockerfile`). Pendiente:
-> CI (CP6), model card (CP7), release v1.1.0 (CP8).
+> (`pytest`, 12 verdes), API + Docker (`src/api.py`, `Dockerfile`) y CI (`.github/workflows/ci.yml`).
+> Pendiente: model card (CP7), release v1.1.0 (CP8).
 
 ---
 
@@ -316,9 +316,10 @@ adivinar nada. Esta es la parte que convierte el proyecto de "análisis" en "pro
       lean: sin notebooks ni jupyter).
 - [x] El dashboard consume la API (con fallback local a `src.score`) en vez de cargar el `.pkl`.
 
-**CI**
-- [ ] GitHub Actions que corre `pytest` en cada push (y si se puede, ejecuta los notebooks para que
-      no se rompan en silencio).
+**CI** — hecho (CP6)
+- [x] GitHub Actions (`.github/workflows/ci.yml`) corre `pytest` en cada push y PR a main, con
+      `requirements-dev.txt` (deps ligeras). Los tests usan datos sintéticos, así que no necesitan
+      el dataset real. Badge de estado en el README.
 
 **Documentación de modelo**
 - [ ] Model card: para qué sirve y para qué NO, con qué datos se entrenó, límites y sesgos
