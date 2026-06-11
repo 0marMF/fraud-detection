@@ -87,3 +87,6 @@ función `src.score.predict`), así que siempre funciona.
 - Para reentrenar y regenerar el modelo antes de construir la imagen: `python -m src.pipeline`.
 - Las dependencias de la imagen están en `requirements-api.txt` (más pequeñas que las de
   desarrollo en `requirements.txt`).
+- **Tamaño:** la imagen pesa ~1.9 GB, sobre todo por `shap` (arrastra `numba`/`llvmlite`). Si
+  necesitas una imagen mucho más ligera, quita `shap` de `requirements-api.txt` y haz la
+  explicación SHAP opcional en `/predict` (la probabilidad y el veredicto no la necesitan).

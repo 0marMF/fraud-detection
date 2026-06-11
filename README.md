@@ -190,7 +190,8 @@ streamlit run dashboard/app.py
 4. **XGBoost y Random Forest quedan casi empatados** — la elección final se justifica con PR-AUC, no con una sola métrica
 5. **El impacto de negocio** (pérdidas evitadas) es tan importante como las métricas técnicas
 
-> **Detalle completo de detecciones y aprendizajes en [`HALLAZGOS.md`](HALLAZGOS.md).**
+> **Más documentación:** detecciones y aprendizajes en [`HALLAZGOS.md`](HALLAZGOS.md) · ficha del
+> modelo en [`MODEL_CARD.md`](MODEL_CARD.md) · serving con contenedor en [`DOCKER.md`](DOCKER.md).
 
 ---
 

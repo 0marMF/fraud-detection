@@ -36,7 +36,7 @@ Leyenda: Pendiente · En progreso · Completado
 > Infra del Track DS ya en marcha: `config.yaml`, paquete `src/` modular, `python -m src.pipeline`
 > y registro de experimentos (`reports/experiments.csv`), SHAP (`src/explain.py`), tests
 > (`pytest`, 12 verdes), API + Docker (`src/api.py`, `Dockerfile`) y CI (`.github/workflows/ci.yml`).
-> Pendiente: model card (CP7), release v1.1.0 (CP8).
+> y model card (`MODEL_CARD.md`). Pendiente: release v1.1.0 (CP8).
 
 ---
 
@@ -321,11 +321,12 @@ adivinar nada. Esta es la parte que convierte el proyecto de "análisis" en "pro
       `requirements-dev.txt` (deps ligeras). Los tests usan datos sintéticos, así que no necesitan
       el dataset real. Badge de estado en el README.
 
-**Documentación de modelo**
-- [ ] Model card: para qué sirve y para qué NO, con qué datos se entrenó, límites y sesgos
-      conocidos (las `V` son PCA anónimas → poca interpretabilidad de negocio).
-- [ ] Nota de monitoreo: cómo detectaríamos *data drift* (los patrones de fraude cambian; un
-      modelo viejo se degrada solo).
+**Documentación de modelo** — hecho (CP7)
+- [x] Model card (`MODEL_CARD.md`): para qué sirve y para qué NO, datos, métricas + punto de
+      operación, límites y sesgos (las `V` son PCA anónimas → poca interpretabilidad de negocio).
+- [x] Nota de monitoreo / *data drift* incluida en la model card.
+- [x] Fix de reproducibilidad: bootstrap de `sys.path` en notebooks 02/03/04 (corren vía
+      `jupyter nbconvert` desde cualquier carpeta). Nota de tamaño de imagen en `DOCKER.md`.
 
 > **Estilo — vale para TODO lo que escribamos aquí:** el código, los comentarios y la
 > documentación deben leerse como escritos por una persona, no por una máquina. Comentarios que
