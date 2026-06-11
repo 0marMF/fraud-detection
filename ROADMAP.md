@@ -18,12 +18,12 @@
 
 Leyenda: Pendiente · En progreso · Completado
 
-> **v1.0.0 completo.** Más abajo están el **Backlog de mejoras (v1.1)** y el **Track de Ciencia de Datos** — el plan
-> de esta segunda iteración.
+> **v1.1.0 publicado** (segunda iteración completa). El **Backlog de mejoras (v1.1)** y el
+> **Track de Ciencia de Datos** de abajo están todos cerrados (CP1-CP8).
 
 ---
 
-## Backlog de mejoras — v1.1.0 *(en progreso: CP1-CP2 hechos)*
+## Backlog de mejoras — v1.1.0 *(publicado 2026-06-11)*
 
 > Derivado de la revisión de calidad (2026-06-06). Corrige focos que la v1.0.0 dejó a medias.
 
