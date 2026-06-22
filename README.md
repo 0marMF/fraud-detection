@@ -79,11 +79,18 @@ fraud-detection/
 │
 ├── src/                        # La lógica vive aquí; los notebooks la importan
 │   ├── data.py  features.py  model.py  evaluate.py
+│   ├── explain.py              # Explicabilidad SHAP (TreeExplainer)
+│   ├── score.py  api.py        # Scoring + API FastAPI (/health, /predict)
 │   ├── pipeline.py             # "python -m src.pipeline" corre todo de una
 │   └── best_model.pkl          # Modelo final serializado (XGBoost + umbral por coste)
 │
+├── tests/                      # pytest (datos sintéticos) — corre en CI
+├── .github/workflows/ci.yml    # CI: pytest en cada push/PR
 ├── dashboard/
-│   └── app.py                  # Dashboard interactivo con Streamlit
+│   └── app.py                  # Dashboard Streamlit (consume la API, fallback local)
+│
+├── Dockerfile  DOCKER.md       # Empaquetado del servicio (imagen fraud-api:1.1.0)
+├── MODEL_CARD.md               # Ficha del modelo: supuestos, métricas y límites
 │
 └── reports/                    # Visualizaciones generadas
     ├── 01_class_distribution.png
@@ -144,6 +151,29 @@ Después SMOTE → {Legítimas: 226,602 | Fraudes: 226,602}
 > (área bajo precision-recall) es la métrica más fiable; XGBoost y Random Forest quedan casi
 > empatados y se eligió XGBoost por su PR-AUC marginalmente superior y mayor ROC-AUC.
 
+### 5. Explicabilidad con SHAP
+
+No basta con predecir: un analista de fraude necesita saber **por qué**. `src/explain.py` usa
+**SHAP (TreeExplainer)** para cuantificar qué empuja cada decisión. La API devuelve, junto con la
+probabilidad, las features que más pesaron en esa transacción — útil para priorizar revisiones.
+
+---
+
+## Serving — API y Docker
+
+El modelo se sirve como un servicio, no solo como un notebook. Una sola fuente de verdad para
+puntuar (`src/score.py`) que usan tanto la API como el dashboard.
+
+```bash
+uvicorn src.api:app --reload          # API REST (docs interactivas en /docs)
+```
+
+- `GET /health` — estado y umbral por coste cargado.
+- `POST /predict` — recibe monto, hora y componentes PCA; devuelve probabilidad, veredicto (según
+  el umbral por coste) y las features SHAP que más pesaron.
+
+Para empaquetarlo en contenedor, ver [`DOCKER.md`](DOCKER.md) (imagen `fraud-api:1.1.0`).
+
 ---
 
 ## Cómo ejecutar
@@ -164,8 +194,17 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/01_EDA.ipynb
 jupyter nbconvert --to notebook --execute --inplace notebooks/02_preprocessing.ipynb
 jupyter nbconvert --to notebook --execute --inplace notebooks/03_modeling.ipynb
 
-# 4. Lanzar dashboard interactivo
+# 4. Servir el modelo como API (opcional)
+uvicorn src.api:app --reload
+
+# 5. Lanzar dashboard interactivo (consume la API, con fallback al modelo local)
 streamlit run dashboard/app.py
+```
+
+```bash
+# Tests (datos sintéticos; no necesitan el dataset real)
+pip install -r requirements-dev.txt
+pytest
 ```
 
 ---
@@ -177,8 +216,12 @@ streamlit run dashboard/app.py
 - **Scikit-learn** — preprocessing y métricas
 - **Imbalanced-learn** — SMOTE para balanceo de clases
 - **XGBoost** — modelo final de clasificación
+- **SHAP** — explicabilidad del modelo (TreeExplainer)
 - **Matplotlib & Seaborn** — visualización estática
 - **Plotly & Streamlit** — dashboard interactivo
+- **FastAPI & Uvicorn** — API REST de scoring
+- **Docker** — empaquetado del servicio (ver `DOCKER.md`)
+- **pytest & GitHub Actions** — tests y CI
 
 ---
 
